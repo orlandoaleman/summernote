@@ -5,7 +5,7 @@
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
  *
- * Date: 2018-02-20T00:34Z
+ * Date: 2018-11-15T15:06Z
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
@@ -658,7 +658,7 @@ var isEdge = /Edge\/\d+/.test(userAgent);
 var hasCodeMirror = !!window.CodeMirror;
 if (!hasCodeMirror && isSupportAmd) {
     // Webpack
-    if (typeof __webpack_require__ === 'function') {
+    if (typeof __webpack_require__ === 'function') { // eslint-disable-line
         try {
             // If CodeMirror can't be resolved, `require.resolve` will throw an
             // exception and `hasCodeMirror` won't be set to `true`.
@@ -2490,7 +2490,7 @@ var range = {
         if (arguments.length === 4) {
             return new WrappedRange(sc, so, ec, eo);
         }
-        else if (arguments.length === 2) {
+        else if (arguments.length === 2) { // collapsed
             ec = sc;
             eo = so;
             return new WrappedRange(sc, so, ec, eo);
@@ -2522,7 +2522,7 @@ var range = {
             ec = nativeRng.endContainer;
             eo = nativeRng.endOffset;
         }
-        else {
+        else { // IE8: TextRange
             var textRange = document.selection.createRange();
             var textRangeEnd = textRange.duplicate();
             textRangeEnd.collapse(false);
@@ -4857,7 +4857,7 @@ var Handle = /** @class */ (function () {
                     _this.$document.off('mousemove', onMouseMove_1);
                     _this.context.invoke('editor.afterCommand');
                 });
-                if (!$target_1.data('ratio')) {
+                if (!$target_1.data('ratio')) { // original ratio.
                     $target_1.data('ratio', $target_1.height() / $target_1.width());
                 }
             }
@@ -6148,10 +6148,10 @@ var ImageDialog = /** @class */ (function () {
             // [workaround] hide dialog before restore range for IE range focus
             _this.ui.hideDialog(_this.$dialog);
             _this.context.invoke('editor.restoreRange');
-            if (typeof data === 'string') {
+            if (typeof data === 'string') { // image url
                 _this.context.invoke('editor.insertImage', data);
             }
-            else {
+            else { // array of files
                 _this.context.invoke('editor.insertImagesOrCallback', data);
             }
         }).fail(function () {
@@ -6667,9 +6667,9 @@ var HintPopover = /** @class */ (function () {
         }).render().appendTo(this.options.container);
         this.$popover.hide();
         this.$content = this.$popover.find('.popover-content,.note-popover-content');
-        this.$content.on('click', '.note-hint-item', function () {
+        this.$content.on('click', '.note-hint-item', function (e) {
             _this.$content.find('.active').removeClass('active');
-            $$1(_this).addClass('active');
+            $$1(e.currentTarget).addClass('active');
             _this.replace();
         });
     };
